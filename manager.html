@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Manager</title>
+</head>
+<body>
+    <h1>Password Manager</h1>
+    <form method="POST" action="/add">
+        <label for="site">Website:</label>
+        <input type="text" id="site" name="site" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Add Password">
+    </form>
+    <h2>Stored Passwords:</h2>
+    <ul id="passwordList">
+        <!-- Passwords will be displayed here -->
+    </ul>
+</body>
+<script>
+    // JavaScript to fetch and display passwords
+    fetch('/passwords')
+        .then(response => response.json())
+        .then(passwords => {
+            const passwordList = document.getElementById('passwordList');
+            passwords.forEach(password => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Website: ${password.site}, Password: ${password.password}`;
+                passwordList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error(error));
+</script>
+</html>
